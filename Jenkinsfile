@@ -6,7 +6,7 @@ pipeline {
     stages{
         stage('Build'){
             steps {
-                source .~/bash_profile
+                source ~/.bash_profile
                 echo "$PATH"
                 sh 'mvn clean package'
             }
