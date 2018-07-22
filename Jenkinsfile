@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+    PATH = "/Users/himanichauhan/Documents/apache-maven-3.5.4/bin:$PATH"
+                }
     stages{
         stage('Build'){
             steps {
