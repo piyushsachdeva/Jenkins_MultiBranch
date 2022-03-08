@@ -1,43 +1,33 @@
-pipeline {
-    agent any
-    environment {
-    PATH = "/Users/piyushsachdeva/Documents/apache-maven-3.5.4/bin:$PATH"
-                }
-    stages{
-        stage('Build'){
-            steps {
-                //source ~/.bash_profile
-                echo "$PATH"
-                sh 'mvn clean package'
-            }
-            post {
-                success {
-                    echo "Now Archiving...!!"
-                    archiveArtifacts artifacts: '**/target/*.war'
-                }
-            }
-        }
-        stage('Deploy to staging'){
-            steps {
-                build job: 'deploy-to-staging'
-            }
+pipeline
+{
+
+agent {
+  label 'DevServer'
+}
+
+tools {
+  maven 'mymaven'
+}
+
+stages{
+
+    stage('build')
+    {
+        steps {
+            sh 'mvn clean package'
         }
 
-        stage('Deploy to production'){
-            steps{
-                timeout(time:5, unit:'DAYS'){
-                input message: 'Deployment approved?'
+        post {
+        success {
+            archiveArtifacts artifacts: '**/target/*.war'
+                 }
             }
-                build job: 'deploy-to-prod'
-            }
-            post{
-            success{
-                echo "deployment success"
-            }
-            failure{
-                echo "deployment failed"
-            }
-        }
+
     }
+
+   
+
+    
 }
+
 }
