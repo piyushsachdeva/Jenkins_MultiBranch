@@ -92,6 +92,7 @@ stages{
         {
              timeout(time:5, unit:'DAYS'){
                 input message: 'Deployment approved?'
+             }
             dir("/var/www/html")
             {
                 unstash "maven-build"
