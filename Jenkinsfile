@@ -67,8 +67,7 @@ stages{
 
     stage('deploy_dev')
     {
-        when { expression {params.select_environment == 'dev'} 
-              branch 'master' 
+        when { branch 'master'
         beforeAgent true}
         agent { label 'DevServer' }
         steps
@@ -86,7 +85,7 @@ stages{
 
     stage('deploy_prod')
     {
-      when { expression {params.select_environment == 'prod'}
+      when { branch 'develop'
         beforeAgent true}
         agent { label 'ProdServer' }
         steps
